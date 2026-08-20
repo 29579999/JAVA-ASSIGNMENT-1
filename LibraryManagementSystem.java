@@ -130,14 +130,11 @@ public class LibraryManagementSystem {
 
         Magazine magazine1 = new Magazine("Science Today", 201);
         Magazine magazine2 = new Magazine("Tech World", 202);
-
-        // Issue all items
         book1.issueItem();
         book2.issueItem();
         magazine1.issueItem();
         magazine2.issueItem();
 
-        // Store all items using polymorphism
         LibraryItem[] items = {
             book1,
             magazine1,
