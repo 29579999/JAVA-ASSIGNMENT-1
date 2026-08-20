@@ -1,0 +1,171 @@
+abstract class LibraryItem {
+    protected String title;
+    protected int itemId;
+    protected boolean issued;
+
+    public LibraryItem(String title, int itemId) {
+        this.title = title;
+        this.itemId = itemId;
+        this.issued = false;
+    }
+
+    public abstract int calculateFine(int daysLate);
+
+    public void displayInfo() {
+        System.out.println("Title: " + title);
+        System.out.println("Item ID: " + itemId);
+        System.out.println("Issued: " + issued);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public boolean isIssued() {
+        return issued;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setIssued(boolean issued) {
+        this.issued = issued;
+    }
+}
+
+interface Issuable {
+    void issueItem();
+    void returnItem();
+}
+
+class Book extends LibraryItem implements Issuable {
+
+    public Book(String title, int itemId) {
+        super(title, itemId);
+    }
+
+    @Override
+    public int calculateFine(int daysLate) {
+        return daysLate * 5;
+    }
+
+    @Override
+    public void issueItem() {
+        if (!issued) {
+            issued = true;
+            System.out.println(title + " has been issued.");
+        } else {
+            System.out.println(title + " is already issued.");
+        }
+    }
+
+    @Override
+    public void returnItem() {
+        if (issued) {
+            issued = false;
+            System.out.println(title + " has been returned.");
+        } else {
+            System.out.println(title + " was not issued.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Item: " + title + " (Book)";
+    }
+}
+
+class Magazine extends LibraryItem implements Issuable {
+
+    public Magazine(String title, int itemId) {
+        super(title, itemId);
+    }
+
+    @Override
+    public int calculateFine(int daysLate) {
+        return daysLate * 2;
+    }
+
+    @Override
+    public void issueItem() {
+        if (!issued) {
+            issued = true;
+            System.out.println(title + " has been issued.");
+        } else {
+            System.out.println(title + " is already issued.");
+        }
+    }
+
+    @Override
+    public void returnItem() {
+        if (issued) {
+            issued = false;
+            System.out.println(title + " has been returned.");
+        } else {
+            System.out.println(title + " was not issued.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Item: " + title + " (Magazine)";
+    }
+}
+
+public class LibraryManagementSystem {
+
+    public static void main(String[] args) {
+
+        Book book1 = new Book("Java Basics", 101);
+        Book book2 = new Book("Data Structures", 102);
+
+        Magazine magazine1 = new Magazine("Science Today", 201);
+        Magazine magazine2 = new Magazine("Tech World", 202);
+
+        // Issue all items
+        book1.issueItem();
+        book2.issueItem();
+        magazine1.issueItem();
+        magazine2.issueItem();
+
+        // Store all items using polymorphism
+        LibraryItem[] items = {
+            book1,
+            magazine1,
+            book2,
+            magazine2
+        };
+
+        int[] lateDays = {4, 4, 2, 2};
+
+        System.out.println("\n--- Library Fine Details ---");
+
+        for (int i = 0; i < items.length; i++) {
+            int fine = items[i].calculateFine(lateDays[i]);
+
+            System.out.println(
+                items[i]
+                + " | Fine for "
+                + lateDays[i]
+                + " days late: Rs."
+                + fine
+            );
+        }
+
+        System.out.println("\n--- Returning Items ---");
+
+        book1.returnItem();
+        book2.returnItem();
+        magazine1.returnItem();
+        magazine2.returnItem();
+    }
+}
